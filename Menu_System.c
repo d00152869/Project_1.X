@@ -90,20 +90,16 @@ Bit_Mask Button_Press;
 
 void main ( void ) 
 {
-    unsigned char Desired_Value = 50;
-    unsigned char Actual_Value = 50;
-    unsigned char Temp_Value = 0;
-    
     typedef  enum {MENU_0 = 0,MENU_1} states;
     
-    states  my_mch_state = MENU_1;  
+    states  my_mch_state = MENU_0;  //Initial state = MENU_0
     
     typedef struct{
         unsigned char desired;
         unsigned char actual;
-        unsigned char temp;
     } motor;
-    motor motor1 = {50,50,0};
+    motor motor1 = {50,50};
+    unsigned char ADCREAD = 0;
     Initial();
     lcd_start ();
     lcd_cursor ( 0, 0 ) ;
@@ -158,18 +154,19 @@ void main ( void )
                 LATC = PORTCbits.RC7 << 7 | 0x1 ;
 				
 				break;
-			case MENU_1: 
+			case MENU_1:
+                
                 if (ENTER_E)          //state actions with guard
-                    motor1.desired = motor1.temp;
+                    motor1.desired = ADCREAD;
                 //ADC Read and Update Temp_Value
                 while(ADCON0bits.GO_nDONE); //In case Conversion is not ready
-                motor1.temp = ADRESH >> 2;
+                ADCREAD = ADRESH >> 1;
                 ADCON0bits.GO_nDONE = 1; //Start ADC Conversion
                 
 				lcd_cursor ( 10, 0 ) ;
                 lcd_display_value(motor1.desired);
 				lcd_cursor ( 10, 1 ) ;
-                lcd_display_value(motor1.temp);
+                lcd_display_value(ADCREAD);
                 LATC= PORTCbits.RC7 << 7 | 0x2;
 				break;
 			
@@ -191,6 +188,7 @@ void main ( void )
 void Initial(void){
     ADCON0 = 0x01; //Enable ADC on AN0
     ADCON1 = 0x0E; //AN0 = Analog Input
+    TRISA = 0x01; //Analog Input
 	TRISB = 0xFF; //Buttons
 	TRISC = 0x00;   //LEDS
     ADCON0bits.GO_nDONE = 1; //Start ADC Conversion

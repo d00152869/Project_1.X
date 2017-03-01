@@ -5167,20 +5167,16 @@ Bit_Mask Button_Press;
 # 91
 void main ( void )
 {
-unsigned char Desired_Value = 50;
-unsigned char Actual_Value = 50;
-unsigned char Temp_Value = 0;
-
 typedef enum {MENU_0 = 0,MENU_1} states;
 
-states my_mch_state = MENU_1;
+states my_mch_state = MENU_0;
 
 typedef struct{
 unsigned char desired;
 unsigned char actual;
-unsigned char temp;
 } motor;
-motor motor1 = {50,50,0};
+motor motor1 = {50,50};
+unsigned char ADCREAD = 0;
 Initial();
 lcd_start ();
 lcd_cursor ( 0, 0 ) ;
@@ -5236,17 +5232,18 @@ LATC = PORTCbits.RC7 << 7 | 0x1 ;
 
 break;
 case MENU_1:
+
 if (Button_Press.B1)
-motor1.desired = motor1.temp;
+motor1.desired = ADCREAD;
 
 while(ADCON0bits.GO_nDONE);
-motor1.temp = ADRESH >> 2;
+ADCREAD = ADRESH >> 1;
 ADCON0bits.GO_nDONE = 1;
 
 lcd_cursor ( 10, 0 ) ;
 lcd_display_value(motor1.desired);
 lcd_cursor ( 10, 1 ) ;
-lcd_display_value(motor1.temp);
+lcd_display_value(ADCREAD);
 LATC= PORTCbits.RC7 << 7 | 0x2;
 break;
 
@@ -5268,6 +5265,7 @@ Tick_E = 0;
 void Initial(void){
 ADCON0 = 0x01;
 ADCON1 = 0x0E;
+TRISA = 0x01;
 TRISB = 0xFF;
 TRISC = 0x00;
 ADCON0bits.GO_nDONE = 1;

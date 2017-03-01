@@ -109,6 +109,8 @@ Version 3.2 HI-TECH Software Intermediate Code
 [v _ADCON0 `Vuc ~T0 @X0 0 e@4034 ]
 "4962
 [v _ADCON1 `Vuc ~T0 @X0 0 e@4033 ]
+"1730
+[v _TRISA `Vuc ~T0 @X0 0 e@3986 ]
 "1951
 [v _TRISB `Vuc ~T0 @X0 0 e@3987 ]
 "2172
@@ -4098,409 +4100,402 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e :U _main ]
 [f ]
 "93
-[v _Desired_Value `uc ~T0 @X0 1 a ]
-[; ;Menu_System.c: 93: unsigned char Desired_Value = 50;
-[e = _Desired_Value -> -> 50 `i `uc ]
-"94
-[v _Actual_Value `uc ~T0 @X0 1 a ]
-[; ;Menu_System.c: 94: unsigned char Actual_Value = 50;
-[e = _Actual_Value -> -> 50 `i `uc ]
+[c E4340 0 1 .. ]
+[n E4340 . MENU_0 MENU_1  ]
+[v _states `E4340 ~T0 @X0 1 t ]
 "95
-[v _Temp_Value `uc ~T0 @X0 1 a ]
-[; ;Menu_System.c: 95: unsigned char Temp_Value = 0;
-[e = _Temp_Value -> -> 0 `i `uc ]
+[v _my_mch_state `E4340 ~T0 @X0 1 a ]
+[; ;Menu_System.c: 93: typedef enum {MENU_0 = 0,MENU_1} states;
+[; ;Menu_System.c: 95: states my_mch_state = MENU_0;
+[e = _my_mch_state . `E4340 0 ]
 "97
-[c E4343 0 1 .. ]
-[n E4343 . MENU_0 MENU_1  ]
-[v _states `E4343 ~T0 @X0 1 t ]
-"99
-[v _my_mch_state `E4343 ~T0 @X0 1 a ]
-[; ;Menu_System.c: 97: typedef enum {MENU_0 = 0,MENU_1} states;
-[; ;Menu_System.c: 99: states my_mch_state = MENU_1;
-[e = _my_mch_state . `E4343 1 ]
-"101
-[s S412 `uc 1 `uc 1 `uc 1 ]
-[n S412 . desired actual temp ]
-"105
+[s S412 `uc 1 `uc 1 ]
+[n S412 . desired actual ]
+"100
 [v _motor `S412 ~T0 @X0 1 t ]
-"106
+"101
 [v _motor1 `S412 ~T0 @X0 1 a ]
-[v F4354 `S412 ~T0 @X0 1 s ]
-[i F4354
+[v F4350 `S412 ~T0 @X0 1 s ]
+[i F4350
 :U ..
 :U ..
 -> -> 50 `i `uc
 -> -> 50 `i `uc
--> -> 0 `i `uc
 ..
 ..
 ]
-[; ;Menu_System.c: 101: typedef struct{
-[; ;Menu_System.c: 102: unsigned char desired;
-[; ;Menu_System.c: 103: unsigned char actual;
-[; ;Menu_System.c: 104: unsigned char temp;
-[; ;Menu_System.c: 105: } motor;
-[; ;Menu_System.c: 106: motor motor1 = {50,50,0};
-[e = _motor1 F4354 ]
-[; ;Menu_System.c: 107: Initial();
-"107
+[; ;Menu_System.c: 97: typedef struct{
+[; ;Menu_System.c: 98: unsigned char desired;
+[; ;Menu_System.c: 99: unsigned char actual;
+[; ;Menu_System.c: 100: } motor;
+[; ;Menu_System.c: 101: motor motor1 = {50,50};
+[e = _motor1 F4350 ]
+"102
+[v _ADCREAD `uc ~T0 @X0 1 a ]
+[; ;Menu_System.c: 102: unsigned char ADCREAD = 0;
+[e = _ADCREAD -> -> 0 `i `uc ]
+[; ;Menu_System.c: 103: Initial();
+"103
 [e ( _Initial ..  ]
-[; ;Menu_System.c: 108: lcd_start ();
-"108
+[; ;Menu_System.c: 104: lcd_start ();
+"104
 [e ( _lcd_start ..  ]
-[; ;Menu_System.c: 109: lcd_cursor ( 0, 0 ) ;
-"109
+[; ;Menu_System.c: 105: lcd_cursor ( 0, 0 ) ;
+"105
 [e ( _lcd_cursor (2 , -> -> 0 `i `uc -> -> 0 `i `uc ]
-[; ;Menu_System.c: 110: lcd_print ( startup ) ;
-"110
+[; ;Menu_System.c: 106: lcd_print ( startup ) ;
+"106
 [e ( _lcd_print (1 _startup ]
-[; ;Menu_System.c: 112: delay_s(2);
-"112
+[; ;Menu_System.c: 108: delay_s(2);
+"108
 [e ( _delay_s (1 -> -> 2 `i `uc ]
-[; ;Menu_System.c: 114: Window(0);
-"114
+[; ;Menu_System.c: 110: Window(0);
+"110
 [e ( _Window (1 -> -> 0 `i `uc ]
-[; ;Menu_System.c: 115: lcd_cursor ( 10, 0 ) ;
-"115
+[; ;Menu_System.c: 111: lcd_cursor ( 10, 0 ) ;
+"111
 [e ( _lcd_cursor (2 , -> -> 10 `i `uc -> -> 0 `i `uc ]
-[; ;Menu_System.c: 116: lcd_display_value(motor1.desired);
-"116
+[; ;Menu_System.c: 112: lcd_display_value(motor1.desired);
+"112
 [e ( _lcd_display_value (1 . _motor1 0 ]
-[; ;Menu_System.c: 117: lcd_cursor ( 10, 1 ) ;
-"117
+[; ;Menu_System.c: 113: lcd_cursor ( 10, 1 ) ;
+"113
 [e ( _lcd_cursor (2 , -> -> 10 `i `uc -> -> 1 `i `uc ]
-[; ;Menu_System.c: 118: lcd_display_value(motor1.actual);
-"118
+[; ;Menu_System.c: 114: lcd_display_value(motor1.actual);
+"114
 [e ( _lcd_display_value (1 . _motor1 1 ]
-[; ;Menu_System.c: 120: while(1)
-"120
+[; ;Menu_System.c: 116: while(1)
+"116
 [e :U 415 ]
-[; ;Menu_System.c: 121: {
-"121
+[; ;Menu_System.c: 117: {
+"117
 {
-[; ;Menu_System.c: 125: while(!(Button_Press.Full !=0 ? 1:0) && !Tick_E);
-"125
+[; ;Menu_System.c: 121: while(!(Button_Press.Full !=0 ? 1:0) && !Tick_E);
+"121
 [e $U 417  ]
 [e :U 418 ]
 [e :U 417 ]
 [e $ && ! != ? != -> . _Button_Press 0 `i -> 0 `i : -> 1 `i -> 0 `i -> 0 `i ! _Tick_E 418  ]
 [e :U 419 ]
-[; ;Menu_System.c: 127: switch(my_mch_state)
-"127
+[; ;Menu_System.c: 123: switch(my_mch_state)
+"123
 [e $U 421  ]
-[; ;Menu_System.c: 128: {
-"128
+[; ;Menu_System.c: 124: {
+"124
 {
-[; ;Menu_System.c: 129: case MENU_0:
-"129
+[; ;Menu_System.c: 125: case MENU_0:
+"125
 [e :U 422 ]
-[; ;Menu_System.c: 130: if (Button_Press.B0){
-"130
+[; ;Menu_System.c: 126: if (Button_Press.B0){
+"126
 [e $ ! != -> . . _Button_Press 1 0 `i -> -> -> 0 `i `uc `i 423  ]
 {
-[; ;Menu_System.c: 131: my_mch_state = MENU_1;
-"131
-[e = _my_mch_state . `E4343 1 ]
-[; ;Menu_System.c: 132: Window(1);
-"132
+[; ;Menu_System.c: 127: my_mch_state = MENU_1;
+"127
+[e = _my_mch_state . `E4340 1 ]
+[; ;Menu_System.c: 128: Window(1);
+"128
 [e ( _Window (1 -> -> 1 `i `uc ]
-"133
+"129
 }
 [e :U 423 ]
-[; ;Menu_System.c: 133: }
-[; ;Menu_System.c: 135: break;
-"135
+[; ;Menu_System.c: 129: }
+[; ;Menu_System.c: 131: break;
+"131
 [e $U 420  ]
-[; ;Menu_System.c: 136: case MENU_1:
-"136
+[; ;Menu_System.c: 132: case MENU_1:
+"132
 [e :U 424 ]
-[; ;Menu_System.c: 137: if (Button_Press.B0){
-"137
+[; ;Menu_System.c: 133: if (Button_Press.B0){
+"133
 [e $ ! != -> . . _Button_Press 1 0 `i -> -> -> 0 `i `uc `i 425  ]
 {
-[; ;Menu_System.c: 138: my_mch_state = MENU_0;
-"138
-[e = _my_mch_state . `E4343 0 ]
-[; ;Menu_System.c: 139: Window(0);
-"139
+[; ;Menu_System.c: 134: my_mch_state = MENU_0;
+"134
+[e = _my_mch_state . `E4340 0 ]
+[; ;Menu_System.c: 135: Window(0);
+"135
 [e ( _Window (1 -> -> 0 `i `uc ]
-"140
+"136
 }
 [e :U 425 ]
-[; ;Menu_System.c: 140: }
-[; ;Menu_System.c: 141: break;
-"141
+[; ;Menu_System.c: 136: }
+[; ;Menu_System.c: 137: break;
+"137
 [e $U 420  ]
-[; ;Menu_System.c: 142: default:
-"142
+[; ;Menu_System.c: 138: default:
+"138
 [e :U 426 ]
-[; ;Menu_System.c: 143: if (Button_Press.B0){
-"143
+[; ;Menu_System.c: 139: if (Button_Press.B0){
+"139
 [e $ ! != -> . . _Button_Press 1 0 `i -> -> -> 0 `i `uc `i 427  ]
 {
-[; ;Menu_System.c: 144: my_mch_state = MENU_0;
-"144
-[e = _my_mch_state . `E4343 0 ]
-[; ;Menu_System.c: 145: Window(0);
-"145
+[; ;Menu_System.c: 140: my_mch_state = MENU_0;
+"140
+[e = _my_mch_state . `E4340 0 ]
+[; ;Menu_System.c: 141: Window(0);
+"141
 [e ( _Window (1 -> -> 0 `i `uc ]
-"146
+"142
 }
 [e :U 427 ]
-[; ;Menu_System.c: 146: }
-[; ;Menu_System.c: 147: break;
-"147
+[; ;Menu_System.c: 142: }
+[; ;Menu_System.c: 143: break;
+"143
 [e $U 420  ]
-"148
+"144
 }
-[; ;Menu_System.c: 148: }
+[; ;Menu_System.c: 144: }
 [e $U 420  ]
-"127
+"123
 [e :U 421 ]
-[e [\ _my_mch_state , $ . `E4343 0 422
- , $ . `E4343 1 424
+[e [\ _my_mch_state , $ . `E4340 0 422
+ , $ . `E4340 1 424
  426 ]
-"148
+"144
 [e :U 420 ]
-[; ;Menu_System.c: 151: switch(my_mch_state)
-"151
+[; ;Menu_System.c: 147: switch(my_mch_state)
+"147
 [e $U 429  ]
-[; ;Menu_System.c: 152: {
-"152
+[; ;Menu_System.c: 148: {
+"148
 {
-[; ;Menu_System.c: 153: case MENU_0:
-"153
+[; ;Menu_System.c: 149: case MENU_0:
+"149
 [e :U 430 ]
-[; ;Menu_System.c: 154: lcd_cursor ( 10, 0 ) ;
-"154
+[; ;Menu_System.c: 150: lcd_cursor ( 10, 0 ) ;
+"150
 [e ( _lcd_cursor (2 , -> -> 10 `i `uc -> -> 0 `i `uc ]
-[; ;Menu_System.c: 155: lcd_display_value(motor1.desired);
-"155
+[; ;Menu_System.c: 151: lcd_display_value(motor1.desired);
+"151
 [e ( _lcd_display_value (1 . _motor1 0 ]
-[; ;Menu_System.c: 156: lcd_cursor ( 10, 1 ) ;
-"156
+[; ;Menu_System.c: 152: lcd_cursor ( 10, 1 ) ;
+"152
 [e ( _lcd_cursor (2 , -> -> 10 `i `uc -> -> 1 `i `uc ]
-[; ;Menu_System.c: 157: lcd_display_value(motor1.actual);
-"157
+[; ;Menu_System.c: 153: lcd_display_value(motor1.actual);
+"153
 [e ( _lcd_display_value (1 . _motor1 1 ]
-[; ;Menu_System.c: 158: LATC = PORTCbits.RC7 << 7 | 0x1 ;
-"158
+[; ;Menu_System.c: 154: LATC = PORTCbits.RC7 << 7 | 0x1 ;
+"154
 [e = _LATC -> | << -> . . _PORTCbits 0 7 `i -> 7 `i -> 1 `i `uc ]
-[; ;Menu_System.c: 160: break;
-"160
+[; ;Menu_System.c: 156: break;
+"156
 [e $U 428  ]
-[; ;Menu_System.c: 161: case MENU_1:
-"161
+[; ;Menu_System.c: 157: case MENU_1:
+"157
 [e :U 431 ]
-[; ;Menu_System.c: 162: if (Button_Press.B1)
-"162
+[; ;Menu_System.c: 159: if (Button_Press.B1)
+"159
 [e $ ! != -> . . _Button_Press 1 1 `i -> -> -> 0 `i `uc `i 432  ]
-[; ;Menu_System.c: 163: motor1.desired = motor1.temp;
-"163
-[e = . _motor1 0 . _motor1 2 ]
+[; ;Menu_System.c: 160: motor1.desired = ADCREAD;
+"160
+[e = . _motor1 0 _ADCREAD ]
 [e :U 432 ]
-[; ;Menu_System.c: 165: while(ADCON0bits.GO_nDONE);
-"165
+[; ;Menu_System.c: 162: while(ADCON0bits.GO_nDONE);
+"162
 [e $U 433  ]
 [e :U 434 ]
 [e :U 433 ]
 [e $ != -> . . _ADCON0bits 1 1 `i -> -> -> 0 `i `Vuc `i 434  ]
 [e :U 435 ]
-[; ;Menu_System.c: 166: motor1.temp = ADRESH >> 2;
-"166
-[e = . _motor1 2 -> >> -> _ADRESH `i -> 2 `i `uc ]
-[; ;Menu_System.c: 167: ADCON0bits.GO_nDONE = 1;
-"167
+[; ;Menu_System.c: 163: ADCREAD = ADRESH >> 1;
+"163
+[e = _ADCREAD -> >> -> _ADRESH `i -> 1 `i `uc ]
+[; ;Menu_System.c: 164: ADCON0bits.GO_nDONE = 1;
+"164
 [e = . . _ADCON0bits 1 1 -> -> 1 `i `uc ]
-[; ;Menu_System.c: 169: lcd_cursor ( 10, 0 ) ;
-"169
+[; ;Menu_System.c: 166: lcd_cursor ( 10, 0 ) ;
+"166
 [e ( _lcd_cursor (2 , -> -> 10 `i `uc -> -> 0 `i `uc ]
-[; ;Menu_System.c: 170: lcd_display_value(motor1.desired);
-"170
+[; ;Menu_System.c: 167: lcd_display_value(motor1.desired);
+"167
 [e ( _lcd_display_value (1 . _motor1 0 ]
-[; ;Menu_System.c: 171: lcd_cursor ( 10, 1 ) ;
-"171
+[; ;Menu_System.c: 168: lcd_cursor ( 10, 1 ) ;
+"168
 [e ( _lcd_cursor (2 , -> -> 10 `i `uc -> -> 1 `i `uc ]
-[; ;Menu_System.c: 172: lcd_display_value(motor1.temp);
-"172
-[e ( _lcd_display_value (1 . _motor1 2 ]
-[; ;Menu_System.c: 173: LATC= PORTCbits.RC7 << 7 | 0x2;
-"173
+[; ;Menu_System.c: 169: lcd_display_value(ADCREAD);
+"169
+[e ( _lcd_display_value (1 _ADCREAD ]
+[; ;Menu_System.c: 170: LATC= PORTCbits.RC7 << 7 | 0x2;
+"170
 [e = _LATC -> | << -> . . _PORTCbits 0 7 `i -> 7 `i -> 2 `i `uc ]
-[; ;Menu_System.c: 174: break;
-"174
+[; ;Menu_System.c: 171: break;
+"171
 [e $U 428  ]
-[; ;Menu_System.c: 176: default:
-"176
+[; ;Menu_System.c: 173: default:
+"173
 [e :U 436 ]
-[; ;Menu_System.c: 177: lcd_cursor ( 0, 0 ) ;
-"177
+[; ;Menu_System.c: 174: lcd_cursor ( 0, 0 ) ;
+"174
 [e ( _lcd_cursor (2 , -> -> 0 `i `uc -> -> 0 `i `uc ]
-[; ;Menu_System.c: 178: lcd_clear();
-"178
+[; ;Menu_System.c: 175: lcd_clear();
+"175
 [e ( _lcd_clear ..  ]
-[; ;Menu_System.c: 179: lcd_print ( problem );
-"179
+[; ;Menu_System.c: 176: lcd_print ( problem );
+"176
 [e ( _lcd_print (1 _problem ]
-[; ;Menu_System.c: 180: LATC = PORTCbits.RC7 << 7 | 0x5;
-"180
+[; ;Menu_System.c: 177: LATC = PORTCbits.RC7 << 7 | 0x5;
+"177
 [e = _LATC -> | << -> . . _PORTCbits 0 7 `i -> 7 `i -> 5 `i `uc ]
-[; ;Menu_System.c: 181: break;
-"181
+[; ;Menu_System.c: 178: break;
+"178
 [e $U 428  ]
-"182
+"179
 }
-[; ;Menu_System.c: 182: }
+[; ;Menu_System.c: 179: }
 [e $U 428  ]
-"151
+"147
 [e :U 429 ]
-[e [\ _my_mch_state , $ . `E4343 0 430
- , $ . `E4343 1 431
+[e [\ _my_mch_state , $ . `E4340 0 430
+ , $ . `E4340 1 431
  436 ]
-"182
+"179
 [e :U 428 ]
-[; ;Menu_System.c: 184: Button_Press.Full = 0;
-"184
+[; ;Menu_System.c: 181: Button_Press.Full = 0;
+"181
 [e = . _Button_Press 0 -> -> 0 `i `uc ]
-[; ;Menu_System.c: 186: Tick_E = 0;
-"186
+[; ;Menu_System.c: 183: Tick_E = 0;
+"183
 [e = _Tick_E -> -> 0 `i `b ]
-"187
+"184
 }
 [e :U 414 ]
-"120
+"116
 [e $U 415  ]
 [e :U 416 ]
-[; ;Menu_System.c: 187: }
-[; ;Menu_System.c: 188: }
-"188
+[; ;Menu_System.c: 184: }
+[; ;Menu_System.c: 185: }
+"185
 [e :UE 413 ]
 }
-"191
+"188
 [v _Initial `(v ~T0 @X0 1 ef ]
 {
-[; ;Menu_System.c: 191: void Initial(void){
+[; ;Menu_System.c: 188: void Initial(void){
 [e :U _Initial ]
 [f ]
-[; ;Menu_System.c: 192: ADCON0 = 0x01;
-"192
+[; ;Menu_System.c: 189: ADCON0 = 0x01;
+"189
 [e = _ADCON0 -> -> 1 `i `uc ]
-[; ;Menu_System.c: 193: ADCON1 = 0x0E;
-"193
+[; ;Menu_System.c: 190: ADCON1 = 0x0E;
+"190
 [e = _ADCON1 -> -> 14 `i `uc ]
-[; ;Menu_System.c: 194: TRISB = 0xFF;
-"194
+[; ;Menu_System.c: 191: TRISA = 0x01;
+"191
+[e = _TRISA -> -> 1 `i `uc ]
+[; ;Menu_System.c: 192: TRISB = 0xFF;
+"192
 [e = _TRISB -> -> 255 `i `uc ]
-[; ;Menu_System.c: 195: TRISC = 0x00;
-"195
+[; ;Menu_System.c: 193: TRISC = 0x00;
+"193
 [e = _TRISC -> -> 0 `i `uc ]
-[; ;Menu_System.c: 196: ADCON0bits.GO_nDONE = 1;
-"196
+[; ;Menu_System.c: 194: ADCON0bits.GO_nDONE = 1;
+"194
 [e = . . _ADCON0bits 1 1 -> -> 1 `i `uc ]
-[; ;Menu_System.c: 197: LATC = 0xff;
-"197
+[; ;Menu_System.c: 195: LATC = 0xff;
+"195
 [e = _LATC -> -> 255 `i `uc ]
-[; ;Menu_System.c: 198: delay_s(3);
-"198
+[; ;Menu_System.c: 196: delay_s(3);
+"196
 [e ( _delay_s (1 -> -> 3 `i `uc ]
-[; ;Menu_System.c: 199: LATC = 0x00;
-"199
+[; ;Menu_System.c: 197: LATC = 0x00;
+"197
 [e = _LATC -> -> 0 `i `uc ]
-[; ;Menu_System.c: 202: OpenTimer0( 0b11111111 & 0b10111111 & 0b11011111 & 0b11110000);
-"202
+[; ;Menu_System.c: 200: OpenTimer0( 0b11111111 & 0b10111111 & 0b11011111 & 0b11110000);
+"200
 [e ( _OpenTimer0 (1 -> & & & -> 255 `i -> 191 `i -> 223 `i -> 240 `i `uc ]
-[; ;Menu_System.c: 203: WriteTimer0(40960);
-"203
+[; ;Menu_System.c: 201: WriteTimer0(40960);
+"201
 [e ( _WriteTimer0 (1 -> -> 40960 `l `ui ]
-[; ;Menu_System.c: 204: (INTCONbits.GIE = 1);
-"204
+[; ;Menu_System.c: 202: (INTCONbits.GIE = 1);
+"202
 [e = . . _INTCONbits 1 7 -> -> 1 `i `uc ]
-[; ;Menu_System.c: 206: }
-"206
+[; ;Menu_System.c: 204: }
+"204
 [e :UE 437 ]
 }
-"208
+"206
 [v _Window `(v ~T0 @X0 1 ef1`uc ]
-"209
+"207
 {
-[; ;Menu_System.c: 208: void Window(unsigned char num)
-[; ;Menu_System.c: 209: {
+[; ;Menu_System.c: 206: void Window(unsigned char num)
+[; ;Menu_System.c: 207: {
 [e :U _Window ]
-"208
+"206
 [v _num `uc ~T0 @X0 1 r1 ]
-"209
+"207
 [f ]
-[; ;Menu_System.c: 210: lcd_clear();
-"210
+[; ;Menu_System.c: 208: lcd_clear();
+"208
 [e ( _lcd_clear ..  ]
-[; ;Menu_System.c: 211: lcd_cursor ( 0, 0 ) ;
-"211
+[; ;Menu_System.c: 209: lcd_cursor ( 0, 0 ) ;
+"209
 [e ( _lcd_cursor (2 , -> -> 0 `i `uc -> -> 0 `i `uc ]
-[; ;Menu_System.c: 212: lcd_print ( msg_ary[num*2]);
-"212
+[; ;Menu_System.c: 210: lcd_print ( msg_ary[num*2]);
+"210
 [e ( _lcd_print (1 &U *U + &U _msg_ary * -> -> * -> _num `i -> 2 `i `ui `ux -> * -> # *U &U *U &U _msg_ary `ui -> -> 16 `i `ui `ux ]
-[; ;Menu_System.c: 213: lcd_cursor ( 0, 1 ) ;
-"213
+[; ;Menu_System.c: 211: lcd_cursor ( 0, 1 ) ;
+"211
 [e ( _lcd_cursor (2 , -> -> 0 `i `uc -> -> 1 `i `uc ]
-[; ;Menu_System.c: 214: lcd_print ( msg_ary[(num*2)+1]);
-"214
+[; ;Menu_System.c: 212: lcd_print ( msg_ary[(num*2)+1]);
+"212
 [e ( _lcd_print (1 &U *U + &U _msg_ary * -> -> + * -> _num `i -> 2 `i -> 1 `i `ui `ux -> * -> # *U &U *U &U _msg_ary `ui -> -> 16 `i `ui `ux ]
-[; ;Menu_System.c: 215: }
-"215
+[; ;Menu_System.c: 213: }
+"213
 [e :UE 438 ]
 }
-"218
+"216
 [v _delay_s `(v ~T0 @X0 1 ef1`uc ]
-"219
+"217
 {
-[; ;Menu_System.c: 218: void delay_s(unsigned char secs)
-[; ;Menu_System.c: 219: {
+[; ;Menu_System.c: 216: void delay_s(unsigned char secs)
+[; ;Menu_System.c: 217: {
 [e :U _delay_s ]
-"218
+"216
 [v _secs `uc ~T0 @X0 1 r1 ]
-"219
+"217
 [f ]
-"220
+"218
 [v _i `uc ~T0 @X0 1 a ]
 [v _j `uc ~T0 @X0 1 a ]
-[; ;Menu_System.c: 220: unsigned char i,j;
-[; ;Menu_System.c: 221: for(j=0;j<secs;j++)
-"221
+[; ;Menu_System.c: 218: unsigned char i,j;
+[; ;Menu_System.c: 219: for(j=0;j<secs;j++)
+"219
 {
 [e = _j -> -> 0 `i `uc ]
 [e $U 443  ]
-"222
+"220
 [e :U 440 ]
-[; ;Menu_System.c: 222: {
+[; ;Menu_System.c: 220: {
 {
-[; ;Menu_System.c: 223: for (i=0;i<25;i++)
-"223
+[; ;Menu_System.c: 221: for (i=0;i<25;i++)
+"221
 {
 [e = _i -> -> 0 `i `uc ]
 [e $ < -> _i `i -> 25 `i 444  ]
 [e $U 445  ]
-"224
+"222
 [e :U 444 ]
-[; ;Menu_System.c: 224: _delay((unsigned long)((40)*(19660800/4000.0)));
+[; ;Menu_System.c: 222: _delay((unsigned long)((40)*(19660800/4000.0)));
 [e ( __delay (1 -> * -> -> 40 `i `d / -> -> 19660800 `l `d .4000.0 `ul ]
-"223
+"221
 [e ++ _i -> -> 1 `i `uc ]
 [e $ < -> _i `i -> 25 `i 444  ]
 [e :U 445 ]
+"222
+}
 "224
 }
-"226
-}
-"221
+"219
 [e ++ _j -> -> 1 `i `uc ]
 [e :U 443 ]
 [e $ < -> _j `i -> _secs `i 440  ]
 [e :U 441 ]
-"226
+"224
 }
-[; ;Menu_System.c: 226: }
-[; ;Menu_System.c: 227: }
-"227
+[; ;Menu_System.c: 224: }
+[; ;Menu_System.c: 225: }
+"225
 [e :UE 439 ]
 }
 [a 2C 82 101 97 100 121 32 116 111 32 103 111 0 ]
