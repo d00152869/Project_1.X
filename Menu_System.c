@@ -45,11 +45,10 @@ void Initial(void);
 void Window(unsigned char num);
 void delay_s(unsigned char secs);
 
-
 /************************************************
  Interrupt Function 
 *************************************************/
-unsigned char count_test =0;
+unsigned char count_hb =0;
 unsigned char count = 0;
 bit Tick_E = 0;
 void __interrupt myIsr(void)
@@ -63,23 +62,21 @@ void __interrupt myIsr(void)
         INTCONbits.TMR0IF = 0;  // clear this interrupt condition
               
         count++;
+        count_hb++;
         if(count == 10){
-            count_test++;
             count = 0;
             Tick_E = 1;
         }
         //Heartbeat signal
-        if(count_test == 10){
+        if(count_hb == 100){
             PORTCbits.RC7 = ~PORTCbits.RC7;   //check the timer overflow rate
-            count_test = 0;                   //Toggle every 1 second (heartbeat))
+            count_hb = 0;                   //Toggle every 1 second (heartbeat))
         }
     }
 }
 
-
 //declare Button
 Bit_Mask Button_Press;	
-
 
 /************************************************
 			Macros
@@ -98,8 +95,15 @@ void main ( void )
     unsigned char Temp_Value = 0;
     
     typedef  enum {MENU_0 = 0,MENU_1} states;
-    states  my_mch_state = MENU_1;
     
+    states  my_mch_state = MENU_1;  
+    
+    typedef struct{
+        unsigned char desired;
+        unsigned char actual;
+        unsigned char temp;
+    } motor;
+    motor motor1 = {50,50,0};
     Initial();
     lcd_start ();
     lcd_cursor ( 0, 0 ) ;
@@ -109,9 +113,9 @@ void main ( void )
     //Initial LCD Display
     Window(0);
     lcd_cursor ( 10, 0 ) ;
-    lcd_display_value(Desired_Value);
+    lcd_display_value(motor1.desired);
     lcd_cursor ( 10, 1 ) ;
-    lcd_display_value(Actual_Value);
+    lcd_display_value(motor1.actual);
     
     while(1)
     {
@@ -148,38 +152,38 @@ void main ( void )
 		{
 			case MENU_0: 
 				lcd_cursor ( 10, 0 ) ;    //state actions
-                lcd_display_value(Desired_Value);
+                lcd_display_value(motor1.desired);
                 lcd_cursor ( 10, 1 ) ;
-                lcd_display_value(Actual_Value);
-                LATC = 0x01;
+                lcd_display_value(motor1.actual);
+                LATC = PORTCbits.RC7 << 7 | 0x1 ;
 				
 				break;
 			case MENU_1: 
                 if (ENTER_E)          //state actions with guard
-                    Desired_Value = Temp_Value;
+                    motor1.desired = motor1.temp;
                 //ADC Read and Update Temp_Value
                 while(ADCON0bits.GO_nDONE); //In case Conversion is not ready
-                Temp_Value = ADRESH >> 2;
+                motor1.temp = ADRESH >> 2;
                 ADCON0bits.GO_nDONE = 1; //Start ADC Conversion
                 
 				lcd_cursor ( 10, 0 ) ;
-                lcd_display_value(Desired_Value);
+                lcd_display_value(motor1.desired);
 				lcd_cursor ( 10, 1 ) ;
-                lcd_display_value(Temp_Value);
-                LATC= 0x02;
+                lcd_display_value(motor1.temp);
+                LATC= PORTCbits.RC7 << 7 | 0x2;
 				break;
 			
 			default: 
 				lcd_cursor ( 0, 0 ) ;
                 lcd_clear();
 				lcd_print ( problem );
-                LATC = 0x05;
+                LATC = PORTCbits.RC7 << 7 | 0x5;
 				break;
 		}
 		
         Button_Press.Full = 0;  //Clear all events since only allowing one button event at a time
                                 //which will be dealt with immediately
-    
+        Tick_E = 0;         //Clear tick event
     }
 }   
 
